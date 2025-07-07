@@ -43,7 +43,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
+    background:
         radial-gradient(ellipse at 20% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
         radial-gradient(ellipse at 80% 70%, rgba(34, 211, 238, 0.06) 0%, transparent 50%),
         linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
@@ -61,9 +61,9 @@ body::before {
     z-index: -3;
     pointer-events: none;
     opacity: 0.25;
-    background-image: 
+    background-image:
         radial-gradient(circle at 20% 30%, white 0.5px, transparent 0.5px),
-        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.6) 0.5px, transparent 0.5px);
+        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.6) 0.5px, transparent 0.5px);
     background-size: 350px 350px, 420px 420px;
     background-repeat: repeat;
     animation: gentle-star-drift 40s linear infinite;
@@ -78,6 +78,7 @@ body::before {
     0% {
         background-position: 0px 0px;
     }
+
     100% {
         background-position: 280px 280px;
     }
@@ -215,12 +216,13 @@ body::before {
 .back-button,
 .sub-nav-tab,
 .lore-section {
-    transition: transform 0.2s ease, box-shadow 0.2s ease; 
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .stream-status {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .platform-showcase {
     margin-top: 40px;
 }
@@ -569,7 +571,8 @@ body::before {
     height: auto;
     object-fit: contain;
     object-position: center;
-    border-radius: 13px; /* Slightly smaller than container to avoid overflow */
+    border-radius: 13px;
+    /* Slightly smaller than container to avoid overflow */
     max-width: 100%;
     display: block;
 }
@@ -720,15 +723,16 @@ body::before {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
     /* iOS Safari specific fixes */
     body {
         background: var(--bg-primary) !important;
         -webkit-background-size: cover;
         background-size: cover;
     }
-    
+
     body::before {
-        background: 
+        background:
             var(--bg-primary),
             radial-gradient(ellipse at 20% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
             radial-gradient(ellipse at 80% 70%, rgba(34, 211, 238, 0.06) 0%, transparent 50%),
@@ -736,17 +740,17 @@ body::before {
         -webkit-background-size: cover;
         background-size: cover;
     }
-    
+
     /* Mobile optimizations - minimal resource usage */
     .starfield {
         opacity: 0.2 !important;
-        background-image: 
+        background-image:
             radial-gradient(circle at 25% 35%, white 0.4px, transparent 0.4px) !important;
         background-size: 280px 280px !important;
         animation: gentle-star-drift 60s linear infinite !important;
         -webkit-animation: gentle-star-drift 60s linear infinite !important;
     }
-    
+
     /* Reduce animations on mobile for performance */
     .nav-card:hover,
     .platform-link:hover,
@@ -756,12 +760,12 @@ body::before {
         transform: none;
         transition: box-shadow 0.2s ease;
     }
-    
+
     /* Disable transform animations on mobile */
     .image-placeholder:has(.art-image):hover {
         transform: none;
     }
-    
+
     .content-container {
         margin: 20px;
         padding: 30px 20px;
@@ -788,17 +792,17 @@ body::before {
         grid-template-columns: 1fr;
         gap: 30px;
     }
-    
+
     .sub-nav {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .sub-nav-tab {
         width: 200px;
         text-align: center;
     }
-    
+
     .image-placeholder {
         height: 300px;
     }
@@ -808,7 +812,7 @@ body::before {
     .platform-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .sub-nav-tab {
         width: 100%;
         max-width: 250px;
