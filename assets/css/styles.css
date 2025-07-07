@@ -525,6 +525,26 @@ body {
     box-shadow: 0 5px 15px rgba(168, 85, 247, 0.3);
 }
 
+/* Profile picture specific styling - circular and larger */
+.character-portrait .image-placeholder:has(.art-image) {
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 0 -40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.character-portrait .art-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 0 !important;
+}
+
 /* Art image styling - make images fit within placeholder */
 .art-image {
     width: 100%;
