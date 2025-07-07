@@ -1,1 +1,209 @@
-<h1>my page</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pureredattack ~Home</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script defer src="assets/js/main.js"></script>
+  </head>
+  <body>
+    <div class="starfield" id="starfield"></div>
+
+    <div class="content-container">
+      <div class="header">
+        <h1 class="site-title">Pureredattack</h1>
+        <p class="subtitle">The Alien Wanderer</p>
+      </div>
+
+      <div id="home" class="main-nav">
+        <div class="streaming-hub">
+          <div class="stream-status" onclick="showSection('stream')">
+            <span class="stream-text">WATCH STREAM</span>
+          </div>
+          <div class="nav-grid">
+            <div class="nav-card" onclick="showSection('about')">
+              <span class="icon">🛸</span>
+              <div class="title">About Me</div>
+              <div class="desc">My Journey & Lore</div>
+            </div>
+            <div class="nav-card" onclick="showSection('credits')">
+              <span class="icon">🎨</span>
+              <div class="title">Art</div>
+              <div class="desc">Art & Assets</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="platform-showcase">
+          <div class="starry-divider">
+            ੈ✩‧₊˚ ✧ ˚ ₊ ‧ ✩ ੈ ✧👾🛸✧ ੈ✩‧₊˚ ✧ ˚ ₊ ‧ ✩ ੈ
+          </div>
+          <div class="platform-grid">
+            <a href="#" class="platform-link youtube">YOUTUBE</a>
+            <a href="#" class="platform-link twitch">TWITCH</a>
+            <a href="#" class="platform-link twitter">TWITTER</a>
+            <a href="#" class="platform-link tiktok">TIKTOK</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="stream" class="content-section">
+        <div class="section-content">
+          <button class="back-button" onclick="showSection('home')">
+            ← Back to Home
+          </button>
+          <h2>Live Stream</h2>
+          <div class="twitch-embed-container" id="twitch-container">
+            <div class="embed-placeholder">
+              <div class="loading-message">
+                <span>📺 Click "WATCH STREAM" to load</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="about" class="content-section">
+        <div class="section-content">
+          <button class="back-button" onclick="showSection('home')">
+            ← Back to Home
+          </button>
+
+          <div class="sub-nav">
+            <button class="sub-nav-tab active" onclick="showSubSection('about', 'bio')">
+              About Me
+            </button>
+            <button class="sub-nav-tab" onclick="showSubSection('about', 'lore')">
+              Character Lore
+            </button>
+          </div>
+
+          <div id="about-bio" class="sub-content active">
+            <h2>About Me!</h2>
+            <div class="about-container">
+              <div class="about-text">
+                <div class="about-intro">
+                  <h3>Hey-o to all! I come for fun!</h3>
+                  <p>
+                    Nice to meet you! I'm Pureredattack (Red for short), your  super chill <strike>alien</strike> streamer. I have always wanted to be a streamer but more importantly, share "outerworldlyness" to everyone!
+                  </p>
+                  <p>
+                    I want to stream the stuff I love watching so I hope to make some variety content/gaming! I would love to experiment the world of idoling as well as my inspiration grew from watching idol concerts! I hope you enjoy watching the start of my digital journey •ᴗ•
+                  </p>
+                </div>
+                
+                <div class="about-content-goals">
+                  <h4>★ My Dream Goals</h4>
+                  <h5><i>I hope to achieve one day from now on!!</i> ദ്ദി ˉ͈̀꒳ˉ͈́ )✧</h5>
+                  <ul>
+                    <li>Pro-made Live2D model!</li>
+                    <li>3d Model and maybe even concert?</li>
+                    <li>Make some cool tech like making my own linux distro! (૭ ｡•̀ ᵕ •́｡ )૭ </li>
+                    <li>Collab with awesome people!</li>
+                    <li><b>Most importantly, to have a community!</b></li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="about-image">
+                <div class="character-portrait">
+                  <div class="image-placeholder">
+                    <span class="placeholder-text">Character Portrait</span>
+                    <p class="placeholder-desc">Self-portrait artwork will go here</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Character Lore Sub-section -->
+          <div id="about-lore" class="sub-content">
+            <h2>Character Lore</h2>
+            <div class="lore-content">
+              <div class="lore-section">
+                <h3>★ What I am ★</h3>
+                <p>
+                  Born in a galaxy far beyond the 
+                  Milky Way, I belonged to a species known as the Maglitelegeaurtemtem (or just magtemmies for short ᵔ ᵕ ᵔ) - Strange little guys who simply love to play video games. (How I'm related to them I wish I knew..) 
+                </p>
+              </div>
+              
+              <div class="lore-section">
+                <h3>★ How I got here ★</h3>
+                <p>
+                  Out of boredom, I decided to crash out here on earth. While stranded, I decided to chill around here to try out some earthly games. To fit in with humans, I decided to cut my alien `tennas but doing so led me to having fresh baby ones! Thankfully, they just look like hair wisps to the average person.
+                </p>
+              </div>
+              
+              <div class="lore-section">
+                <h3>★ Skills and Specialities ★</h3>
+                <p>
+                  Since I'm from a gamer species, I possess the usual god-like gaming skills (<i>mostly cause I play games all day</i>). I primarly enjoy rhythm and first-person shooter games but have a deep fascination for weird, out-of-the-box, and just simply unknown games that can make me giggle. I'm always up for a variety to explore what's unknown.
+                </p>
+              </div>
+              
+              <div class="lore-section">
+                <h3>★ Life Then On ★</h3>
+                <p>
+                  Being here isn't so bad as I thought! Watching people stream and sing made me realize I wanna do the same too! Instead of being a big couch potato and keeping all my hidden knowledge locked inside me forever, I want to share it to the world! <i>Follow your dreams too! You'll never expect the outcome so, hey we're in this together!</i>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Credits Section -->
+      <div id="credits" class="content-section">
+        <div class="section-content">
+          <button class="back-button" onclick="showSection('home')">
+            ← Return to Home
+          </button>
+          <h2>Credits</h2>
+          
+          <!-- Art Gallery -->
+
+                    
+          <div class="credits-grid">
+            <div class="credit-item">
+              <h3> ★ All the art you see on stream was done by me! ᵔ ᵕ ᵔ</h3>
+            </div>
+          </div>
+
+          <div class="starry-divider">
+           ✦ . 　⁺ 　 . 　⁺ 　 . 　⁺ 　 . 　⁺ 　 . 　⁺ 　 . ✦ . 　⁺ 　 . 　⁺ 　 . 　⁺ 　 . 　⁺ 　 . 　⁺ 　 . ✦
+          </div>
+          
+          <div class="art-gallery">
+            <div class="art-item">
+              <div class="image-placeholder" onclick="openImageModal('assets/images/charactermodel.png', 'Pureredattack Design')">
+                <img src="assets/images/charactermodel.png" alt="Pureredattack Design" class="art-image character-model-image">
+              </div>
+              <div class="art-description">
+                <h4>Model Design <i>--Working on Character Design Sheet!--</i></h4>
+              </div>
+            </div>
+            
+            <div class="art-item">
+              <div class="image-placeholder" onclick="openImageModal('assets/images/megtemini.png', 'Megtemini Design')">
+                <img src="assets/images/megtemini.png" alt="Megtemini Design" class="art-image">
+              </div>
+              <div class="art-description">
+                <h4>Megtemini Design</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+      <span class="close-modal" onclick="closeImageModal()">&times;</span>
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <img id="modalImage" class="modal-image" src="" alt="">
+      </div>
+    </div>
+  </body>
+</html>
