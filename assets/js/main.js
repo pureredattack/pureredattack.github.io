@@ -46,6 +46,33 @@ function showSection(sectionId) {
   }
 }
 
+// Fix for home navigation - add this to existing showSection function
+function showHome() {
+    // Hide all sections
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Show main nav
+    document.querySelector('.main-nav').style.display = 'block';
+    
+    // Clean up any existing embed
+    const container = document.getElementById('twitch-container');
+    const existingEmbed = container.querySelector('.twitch-embed');
+    if (existingEmbed) {
+        existingEmbed.remove();
+        // Reset placeholder
+        const placeholder = container.querySelector('.embed-placeholder');
+        if (placeholder) {
+            placeholder.style.display = 'flex';
+            const message = document.getElementById('embed-message');
+            const fallback = document.getElementById('mobile-fallback');
+            if (message) message.textContent = '📺 Click "WATCH STREAM" to load';
+            if (fallback) fallback.style.display = 'none';
+        }
+    }
+}
+
 // Sub-section navigation
 function showSubSection(parentSectionId, subSectionId) {
   // Get the parent section
@@ -116,57 +143,114 @@ function setupSmoothScrolling() {
   }
 }
 
-// Fresh load Twitch embed every time
-function loadTwitchEmbed() {
-  const container = document.getElementById("twitch-container");
-  
-  if (!container) return;
-  
-  // Always clear container first to ensure fresh load
-  container.innerHTML = `
-    <div class="embed-placeholder">
-      <div class="loading-message">
-        <span>🎮 Loading stream...</span>
-      </div>
-    </div>
-  `;
-  
-  // Create fresh iframe after a delay
-  setTimeout(() => {
-    const iframe = document.createElement("iframe");
-    iframe.className = "twitch-embed";
-    // Add timestamp to force fresh load
-    iframe.src = `https://player.twitch.tv/?channel=pureredattack&parent=localhost&parent=127.0.0.1&parent=pureredattack.github.io&time=${Date.now()}`;
-    iframe.allowFullscreen = true;
-    iframe.frameBorder = "0";
-    
-    // Replace placeholder with fresh iframe
-    container.innerHTML = "";
-    container.appendChild(iframe);
-    
-    console.log("🎮 Fresh Twitch embed loaded");
-  }, 500);
+// Mobile detection and Twitch embed handling
+function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+           window.innerWidth <= 768;
 }
 
-// Unload Twitch embed to free memory
-function unloadTwitchEmbed() {
-  const container = document.getElementById("twitch-container");
-  
-  if (!container) return;
-  
-  // Check if there's an active iframe
-  const iframe = container.querySelector("iframe");
-  if (iframe) {
-    // Reset to placeholder to free memory
-    container.innerHTML = `
-      <div class="embed-placeholder">
-        <div class="loading-message">
-          <span>📺 Click "WATCH STREAM" to load</span>
-        </div>
-      </div>
+// Enhanced Twitch embed with mobile fallback
+function loadTwitchEmbed() {
+    const container = document.getElementById('twitch-container');
+    const placeholder = container.querySelector('.embed-placeholder');
+    const mobileMessage = document.getElementById('embed-message');
+    const mobileFallback = document.getElementById('mobile-fallback');
+    
+    if (isMobile()) {
+        // Show mobile fallback immediately
+        mobileMessage.textContent = '📱 Stream may not load on mobile';
+        mobileFallback.style.display = 'block';
+        
+        // Try to load embed anyway, but with timeout
+        setTimeout(() => {
+            if (placeholder.style.display !== 'none') {
+                // If embed didn't load, emphasize the fallback
+                mobileMessage.textContent = '📱 Mobile streaming not supported';
+                mobileFallback.innerHTML = `
+                    <p style="color: var(--accent-cyan); font-size: 1rem; font-weight: bold;">
+                        <a href="https://twitch.tv/pureredattack" target="_blank" 
+                           style="color: var(--accent-cyan); text-decoration: underline;">
+                            🎮 Watch on Twitch App →
+                        </a>
+                    </p>
+                `;
+            }
+        }, 3000);
+    }
+    
+    // Standard embed loading
+    mobileMessage.textContent = '📺 Loading stream...';
+    
+    try {
+        // Create Twitch embed with proper configuration
+        const embed = document.createElement('iframe');
+        
+        // Get the current domain for parent parameter
+        const hostname = window.location.hostname;
+        let parentDomains = [];
+        
+        // Force correct domain for GitHub Pages
+        if (hostname.includes('github.io') || hostname === 'pureredattack.github.io') {
+            parentDomains = ['pureredattack.github.io'];
+        } else if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            parentDomains = ['localhost'];
+        } else if (hostname.startsWith('192.168.') || hostname.startsWith('10.') || hostname.startsWith('172.')) {
+            // For local development, use localhost instead of IP
+            parentDomains = ['localhost'];
+        } else {
+            parentDomains = [hostname];
+        }
+        
+        // Create parent parameter string
+        const parentParam = parentDomains.map(domain => `parent=${domain}`).join('&');
+        
+        // Construct proper Twitch embed URL
+        embed.src = `https://player.twitch.tv/?channel=pureredattack&${parentParam}&muted=false&autoplay=false`;
+        embed.className = 'twitch-embed';
+        embed.allowfullscreen = true;
+        embed.allow = 'autoplay; fullscreen';
+        embed.frameBorder = '0';
+        embed.scrolling = 'no';
+        
+        console.log('Twitch embed URL:', embed.src); // Debug log
+        
+        // Add error handling
+        embed.onerror = () => {
+            console.error('Twitch embed failed to load');
+            showEmbedError();
+        };
+        
+        embed.onload = () => {
+            console.log('Twitch embed loaded successfully');
+            // Give it a moment to initialize
+            setTimeout(() => {
+                placeholder.style.display = 'none';
+            }, 1000);
+        };
+        
+        container.appendChild(embed);
+        
+    } catch (error) {
+        console.error('Twitch embed error:', error);
+        showEmbedError();
+    }
+}
+
+function showEmbedError() {
+    const mobileMessage = document.getElementById('embed-message');
+    const mobileFallback = document.getElementById('mobile-fallback');
+    
+    mobileMessage.textContent = '❌ Stream unavailable';
+    mobileFallback.style.display = 'block';
+    mobileFallback.innerHTML = `
+        <p style="color: var(--text-secondary);">
+            Stream might be offline or unavailable.<br>
+            <a href="https://twitch.tv/pureredattack" target="_blank" 
+               style="color: var(--accent-cyan); text-decoration: underline;">
+                Check Twitch directly →
+            </a>
+        </p>
     `;
-    console.log("🗑️ Twitch embed unloaded - memory freed");
-  }
 }
 
 // Simple space animation - floating UFOs

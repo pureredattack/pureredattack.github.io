@@ -18,7 +18,7 @@
 
       <div id="home" class="main-nav">
         <div class="streaming-hub">
-          <div class="stream-status" onclick="showSection('stream')">
+          <div class="stream-status" onclick="showSection('stream')" ontouchstart="showSection('stream')">
             <span class="stream-text">WATCH STREAM</span>
           </div>
           <div class="nav-grid">
@@ -40,24 +40,32 @@
             ੈ✩‧₊˚ ✧ ˚ ₊ ‧ ✩ ੈ ✧👾🛸✧ ੈ✩‧₊˚ ✧ ˚ ₊ ‧ ✩ ੈ
           </div>
           <div class="platform-grid">
-            <a href="#" class="platform-link youtube">YOUTUBE</a>
-            <a href="#" class="platform-link twitch">TWITCH</a>
-            <a href="#" class="platform-link twitter">TWITTER</a>
-            <a href="#" class="platform-link tiktok">TIKTOK</a>
+            <a href="https://youtube.com" class="platform-link youtube">YOUTUBE</a>
+            <a href="https://twitch.tv" class="platform-link twitch">TWITCH</a>
+            <a href="https://twitter.com" class="platform-link twitter">TWITTER</a>
+            <a href="https://tiktok.com" class="platform-link tiktok">TIKTOK</a>
           </div>
         </div>
       </div>
 
       <div id="stream" class="content-section">
         <div class="section-content">
-          <button class="back-button" onclick="showSection('home')">
+          <button class="back-button" onclick="showHome()">
             ← Back to Home
           </button>
           <h2>Live Stream</h2>
           <div class="twitch-embed-container" id="twitch-container">
             <div class="embed-placeholder">
               <div class="loading-message">
-                <span>📺 Click "WATCH STREAM" to load</span>
+                <span id="embed-message">📺 Click "WATCH STREAM" to load</span>
+                <div id="mobile-fallback" style="display: none; margin-top: 15px;">
+                  <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                    Mobile users: If the stream doesn't load, 
+                    <a href="https://twitch.tv/pureredattack" target="_blank" style="color: var(--accent-cyan); text-decoration: underline;">
+                      visit Twitch directly
+                    </a>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
