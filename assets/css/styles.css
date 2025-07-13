@@ -35,7 +35,6 @@ body {
     position: relative;
 }
 
-/* Apply gradients after base background for better iOS compatibility */
 body::before {
     content: '';
     position: fixed;
@@ -51,40 +50,226 @@ body::before {
     pointer-events: none;
 }
 
-/* Lightweight moving starfield - optimized for performance */
+
 .starfield {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -3;
+    z-index: -1;
     pointer-events: none;
-    opacity: 0.25;
+    opacity: 0.3;
     background-image:
-        radial-gradient(circle at 20% 30%, white 0.5px, transparent 0.5px),
-        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.6) 0.5px, transparent 0.5px);
-    background-size: 350px 350px, 420px 420px;
+        radial-gradient(circle at 15% 25%, white 1.5px, transparent 1.5px),
+        radial-gradient(circle at 85% 70%, rgba(255, 255, 255, 0.8) 1.2px, transparent 1.2px),
+        radial-gradient(circle at 45% 15%, rgba(139, 217, 195, 0.6) 1px, transparent 1px);
+    background-size: 500px 400px, 600px 500px, 550px 450px;
     background-repeat: repeat;
-    animation: gentle-star-drift 40s linear infinite;
-    /* Performance optimizations */
+    animation: gentle-space-drift 45s linear infinite;
+    /* Performance stuff */
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
     will-change: background-position;
     contain: layout style paint;
 }
 
-@keyframes gentle-star-drift {
+/* Shooting star animation */
+.starfield::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: -200px;
+    width: 14px;
+    height: 14px;
+    background: linear-gradient(45deg, white, rgba(139, 217, 195, 0.9));
+    border-radius: 50%;
+    box-shadow:
+        0 0 30px white,
+        0 0 60px rgba(139, 217, 195, 0.9),
+        0 0 90px rgba(255, 255, 255, 0.8),
+        0 0 120px rgba(139, 217, 195, 0.7),
+        -60px 0 20px rgba(255, 255, 255, 0.7),
+        -120px 0 16px rgba(255, 255, 255, 0.6),
+        -180px 0 12px rgba(255, 255, 255, 0.5),
+        -240px 0 8px rgba(255, 255, 255, 0.4),
+        -300px 0 6px rgba(255, 255, 255, 0.3),
+        -360px 0 4px rgba(255, 255, 255, 0.2);
+    animation: shooting-star 13s ease-out infinite;
+    opacity: 0;
+    z-index: 10;
+}
+
+/* shooting star container for multiple stars */
+.shooting-star-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.dynamic-shooting-star {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: linear-gradient(45deg, white, rgba(139, 217, 195, 0.9));
+    border-radius: 50%;
+    box-shadow:
+        0 0 30px white,
+        0 0 60px rgba(139, 217, 195, 0.9),
+        0 0 90px rgba(255, 255, 255, 0.8),
+        0 0 120px rgba(139, 217, 195, 0.7),
+        -60px 0 20px rgba(255, 255, 255, 0.7),
+        -120px 0 16px rgba(255, 255, 255, 0.6),
+        -180px 0 12px rgba(255, 255, 255, 0.5),
+        -240px 0 8px rgba(255, 255, 255, 0.4),
+        -300px 0 6px rgba(255, 255, 255, 0.3),
+        -360px 0 4px rgba(255, 255, 255, 0.2);
+    opacity: 0;
+}
+
+@keyframes shooting-star {
     0% {
-        background-position: 0px 0px;
+        opacity: 0;
+        top: 5%;
+        left: -250px;
+        transform: rotate(40deg);
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    30% {
+        opacity: 0;
+        top: calc(100% + 100px);
+        left: calc(100% + 250px);
+        transform: rotate(40deg);
     }
 
     100% {
-        background-position: 280px 280px;
+        opacity: 0;
+        top: 5%;
+        left: -250px;
+        transform: rotate(40deg);
     }
 }
 
-/* Main Content Container */
+/* easter egg */
+@keyframes shoot-down-right {
+    0% {
+        opacity: 0;
+        top: -100px;
+        left: -250px;
+        transform: rotate(40deg);
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        top: calc(100% + 150px);
+        left: calc(100% + 350px);
+        transform: rotate(40deg);
+    }
+}
+
+@keyframes shoot-down-left {
+    0% {
+        opacity: 0;
+        top: -100px;
+        left: calc(100% + 250px);
+        transform: rotate(140deg);
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        top: calc(100% + 150px);
+        left: -350px;
+        transform: rotate(140deg);
+    }
+}
+
+@keyframes shoot-up-right {
+    0% {
+        opacity: 0;
+        top: calc(100% + 100px);
+        left: -250px;
+        transform: rotate(-40deg);
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        top: -150px;
+        left: calc(100% + 350px);
+        transform: rotate(-40deg);
+    }
+}
+
+@keyframes shoot-up-left {
+    0% {
+        opacity: 0;
+        top: calc(100% + 100px);
+        left: calc(100% + 250px);
+        transform: rotate(-140deg);
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        top: -150px;
+        left: -350px;
+        transform: rotate(-140deg);
+    }
+}
+
+@keyframes gentle-space-drift {
+    0% {
+        background-position: 0px 0px, 0px 0px, 0px 0px;
+    }
+
+    100% {
+        background-position: 200px 150px, -250px 200px, 180px -160px;
+    }
+}
+
+/* Main Container */
 .content-container {
     max-width: 1200px;
     margin: 50px auto;
@@ -98,7 +283,6 @@ body::before {
     z-index: 1;
 }
 
-/* Header */
 .header {
     text-align: center;
     margin-bottom: 40px;
@@ -118,7 +302,6 @@ body::before {
     font-size: 1.2rem;
 }
 
-/* Content Sections */
 .content-section {
     display: none;
 }
@@ -127,7 +310,6 @@ body::before {
     display: block;
 }
 
-/* Main Navigation */
 .main-nav {
     display: block;
 }
@@ -172,7 +354,6 @@ body::before {
     font-weight: bold;
 }
 
-/* Navigation Grid */
 .nav-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -195,9 +376,16 @@ body::before {
 }
 
 .nav-card .icon {
-    font-size: 2rem;
+    font-size: 3rem;
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 8px rgba(139, 217, 195, 0.4));
+    transition: all 0.3s ease;
+}
+
+.nav-card:hover .icon {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 12px rgba(139, 217, 195, 0.6));
 }
 
 .nav-card .title {
@@ -279,7 +467,6 @@ body::before {
     box-shadow: 0 10px 25px rgba(255, 0, 80, 0.3);
 }
 
-/* Back Button */
 .back-button {
     background: linear-gradient(135deg, var(--accent-purple), var(--accent-green));
     border: none;
@@ -341,7 +528,6 @@ body::before {
     border: none;
 }
 
-/* Loading placeholder for Twitch embed */
 .embed-placeholder {
     width: 100%;
     height: 100%;
@@ -364,7 +550,6 @@ body::before {
     animation: pulse 2s infinite ease-in-out;
 }
 
-/* About Section */
 .about-content {
     line-height: 1.6;
 }
@@ -379,7 +564,7 @@ body::before {
     color: var(--text-secondary);
 }
 
-/* Credits Section */
+
 .credits-grid {
     display: grid;
     gap: 20px;
@@ -401,7 +586,6 @@ body::before {
     color: var(--text-secondary);
 }
 
-/* Art Gallery styles - vertical list format */
 .art-gallery {
     display: flex;
     flex-direction: column;
@@ -430,7 +614,6 @@ body::before {
     text-align: center;
 }
 
-/* Sub-navigation styles */
 .sub-nav {
     display: flex;
     gap: 15px;
@@ -466,7 +649,6 @@ body::before {
     box-shadow: 0 8px 20px rgba(34, 211, 238, 0.4);
 }
 
-/* Sub-content styles */
 .sub-content {
     display: none;
     opacity: 0;
@@ -478,7 +660,6 @@ body::before {
     opacity: 1;
 }
 
-/* About section specific styles */
 .about-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -545,7 +726,6 @@ body::before {
     box-shadow: 0 5px 15px rgba(168, 85, 247, 0.3);
 }
 
-/* Profile picture specific styling - circular and larger */
 .character-portrait .image-placeholder:has(.art-image) {
     width: 350px;
     height: 350px;
@@ -565,19 +745,17 @@ body::before {
     border-radius: 0 !important;
 }
 
-/* Art image styling - make images fit within placeholder */
 .art-image {
     width: 100%;
     height: auto;
     object-fit: contain;
     object-position: center;
     border-radius: 13px;
-    /* Slightly smaller than container to avoid overflow */
+
     max-width: 100%;
     display: block;
 }
 
-/* Special sizing for character model image - must come after .art-image */
 .art-image.character-model-image {
     width: 30% !important;
     max-width: 30% !important;
@@ -585,7 +763,6 @@ body::before {
     display: block !important;
 }
 
-/* When there's an image, remove placeholder styling */
 .image-placeholder:has(.art-image) {
     padding: 0;
     background: transparent;
@@ -599,13 +776,11 @@ body::before {
     box-shadow: 0 5px 15px rgba(168, 85, 247, 0.3);
 }
 
-/* Special container sizing for character model image */
 .image-placeholder:has(.character-model-image) {
     width: fit-content;
     margin: 0 auto;
 }
 
-/* Lore section styles */
 .lore-content {
     display: flex;
     flex-direction: column;
@@ -642,7 +817,6 @@ body::before {
     margin: 0;
 }
 
-/* Modal image viewer */
 .image-modal {
     display: none;
     position: fixed;
@@ -711,7 +885,6 @@ body::before {
     background: rgba(168, 85, 247, 0.7);
 }
 
-/* Make clickable images have pointer cursor */
 .image-placeholder:has(.art-image) {
     cursor: pointer;
 }
@@ -721,10 +894,174 @@ body::before {
     transition: transform 0.2s ease;
 }
 
+.starfield.shoot-down-right::after {
+    animation: shoot-down-right 2s ease-out forwards;
+}
+
+.starfield.shoot-down-left::after {
+    animation: shoot-down-left 2s ease-out forwards;
+}
+
+.starfield.shoot-up-right::after {
+    animation: shoot-up-right 2s ease-out forwards;
+}
+
+.starfield.shoot-up-left::after {
+    animation: shoot-up-left 2s ease-out forwards;
+}
+
+/* UFO Animation - Realistic Space Flight with Enhanced Bubbly Movement */
+.space-ufo {
+    position: fixed;
+    font-size: 1.8rem; /* Consistent base size */
+    z-index: 15;
+    pointer-events: none;
+    animation-name: ufo-bubbly-fly;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    filter: drop-shadow(0 0 8px rgba(139, 217, 195, 0.6)) 
+            drop-shadow(0 0 16px rgba(255, 255, 255, 0.3));
+    opacity: 0.8;
+    transition: filter 0.2s ease;
+}
+
+.space-ufo:hover {
+    filter: drop-shadow(0 0 12px rgba(139, 217, 195, 0.8)) 
+            drop-shadow(0 0 24px rgba(255, 255, 255, 0.5)) 
+            brightness(1.3) !important;
+}
+
+@keyframes ufo-bubbly-fly {
+    0% {
+        left: -100px;
+        opacity: 0;
+        transform: rotate(-2deg) scale(0.9) translateY(0px);
+    }
+    5% {
+        opacity: 0.8;
+        transform: rotate(1deg) scale(1) translateY(-10px);
+    }
+    12% {
+        transform: rotate(-1deg) scale(1.05) translateY(8px);
+    }
+    20% {
+        transform: rotate(2deg) scale(0.95) translateY(-15px);
+    }
+    28% {
+        transform: rotate(-1.5deg) scale(1.1) translateY(12px);
+    }
+    36% {
+        transform: rotate(1deg) scale(0.9) translateY(-8px);
+    }
+    44% {
+        transform: rotate(-2deg) scale(1.05) translateY(14px);
+    }
+    52% {
+        transform: rotate(1.5deg) scale(0.95) translateY(-6px);
+    }
+    60% {
+        transform: rotate(-1deg) scale(1.08) translateY(10px);
+    }
+    68% {
+        transform: rotate(2deg) scale(0.92) translateY(-12px);
+    }
+    76% {
+        transform: rotate(-1.5deg) scale(1.06) translateY(9px);
+    }
+    84% {
+        transform: rotate(1deg) scale(0.96) translateY(-7px);
+    }
+    92% {
+        transform: rotate(-0.5deg) scale(1.02) translateY(5px);
+    }
+    96% {
+        opacity: 0.8;
+        transform: rotate(1deg) scale(1) translateY(-3px);
+    }
+    100% {
+        left: calc(100% + 100px);
+        opacity: 0;
+        transform: rotate(0.5deg) scale(0.9) translateY(0px);
+    }
+}
+
+/* Child UFOs - smaller versions created from clicking */
+.child-ufo {
+    font-size: 1.2rem !important; /* Smaller than parent UFOs */
+    filter: drop-shadow(0 0 6px rgba(255, 165, 0, 0.6)) 
+            drop-shadow(0 0 12px rgba(255, 255, 255, 0.3)) !important;
+    animation-name: ufo-child-fly !important;
+    opacity: 0.9 !important;
+}
+
+@keyframes ufo-child-fly {
+    0% {
+        opacity: 0;
+        transform: rotate(-2deg) scale(0.8) translateY(0px);
+    }
+    5% {
+        opacity: 0.9;
+        transform: rotate(1deg) scale(1) translateY(-6px);
+    }
+    15% {
+        transform: rotate(-1deg) scale(1.1) translateY(4px);
+    }
+    25% {
+        transform: rotate(2deg) scale(0.9) translateY(-8px);
+    }
+    35% {
+        transform: rotate(-1.5deg) scale(1.15) translateY(6px);
+    }
+    45% {
+        transform: rotate(1deg) scale(0.85) translateY(-4px);
+    }
+    55% {
+        transform: rotate(-2deg) scale(1.1) translateY(8px);
+    }
+    65% {
+        transform: rotate(1.5deg) scale(0.9) translateY(-3px);
+    }
+    75% {
+        transform: rotate(-1deg) scale(1.12) translateY(5px);
+    }
+    85% {
+        transform: rotate(2deg) scale(0.88) translateY(-7px);
+    }
+    95% {
+        opacity: 0.9;
+        transform: rotate(-1deg) scale(1) translateY(2px);
+    }
+    100% {
+        left: calc(100% + 100px);
+        opacity: 0;
+        transform: rotate(1deg) scale(0.8) translateY(0px);
+    }
+}
+
 /* Responsive Design */
+@media (max-width: 1024px) {
+
+    /* Tablets match with desktop */
+    .starfield {
+        opacity: 0.25 !important;
+        background-image:
+            radial-gradient(circle at 15% 25%, white 1.3px, transparent 1.3px),
+            radial-gradient(circle at 85% 70%, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+            radial-gradient(circle at 45% 15%, rgba(139, 217, 195, 0.6) 0.8px, transparent 0.8px) !important;
+        background-size: 500px 400px, 600px 500px, 550px 450px !important;
+        animation: gentle-space-drift 45s linear infinite !important;
+        -webkit-animation: gentle-space-drift 45s linear infinite !important;
+    }
+
+    /* Keep shooting star on tablets */
+    .starfield::before {
+        display: block;
+    }
+}
+
 @media (max-width: 768px) {
 
-    /* iOS Safari specific fixes */
+    /* ios specific fixes */
     body {
         background: var(--bg-primary) !important;
         -webkit-background-size: cover;
@@ -741,17 +1078,21 @@ body::before {
         background-size: cover;
     }
 
-    /* Mobile optimizations - minimal resource usage */
+    /* Mobile ver  */
     .starfield {
         opacity: 0.2 !important;
         background-image:
-            radial-gradient(circle at 25% 35%, white 0.4px, transparent 0.4px) !important;
-        background-size: 280px 280px !important;
-        animation: gentle-star-drift 60s linear infinite !important;
-        -webkit-animation: gentle-star-drift 60s linear infinite !important;
+            radial-gradient(circle at 30% 40%, white 1px, transparent 1px),
+            radial-gradient(circle at 70% 20%, rgba(139, 217, 195, 0.5) 0.8px, transparent 0.8px) !important;
+        background-size: 500px 400px, 600px 500px !important;
+        animation: gentle-space-drift 60s linear infinite !important;
+        -webkit-animation: gentle-space-drift 60s linear infinite !important;
     }
 
-    /* Reduce animations on mobile for performance */
+    .starfield::before {
+        display: none;
+    }
+
     .nav-card:hover,
     .platform-link:hover,
     .back-button:hover,
@@ -761,7 +1102,6 @@ body::before {
         transition: box-shadow 0.2s ease;
     }
 
-    /* Disable transform animations on mobile */
     .image-placeholder:has(.art-image):hover {
         transform: none;
     }
@@ -787,7 +1127,6 @@ body::before {
         height: 300px;
     }
 
-    /* About section responsive */
     .about-container {
         grid-template-columns: 1fr;
         gap: 30px;

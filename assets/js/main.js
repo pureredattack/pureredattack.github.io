@@ -48,7 +48,7 @@ function showSection(sectionId) {
   }
 }
 
-// Fix for home navigation - add this to existing showSection function
+// improv for home navigation
 function showHome() {
   // Hide all sections
   document.querySelectorAll(".content-section").forEach((section) => {
@@ -77,18 +77,14 @@ function showHome() {
 
 // Sub-section navigation
 function showSubSection(parentSectionId, subSectionId) {
-  // Get the parent section
   const parentSection = document.getElementById(parentSectionId);
 
-  // Hide all sub-content in the parent section
   const subContents = parentSection.querySelectorAll(".sub-content");
   subContents.forEach((content) => content.classList.remove("active"));
 
-  // Remove active class from all tabs
   const subNavTabs = parentSection.querySelectorAll(".sub-nav-tab");
   subNavTabs.forEach((tab) => tab.classList.remove("active"));
 
-  // Show the selected sub-content and activate the corresponding tab
   const targetSubContent = document.getElementById(
     `${parentSectionId}-${subSectionId}`
   );
@@ -96,7 +92,6 @@ function showSubSection(parentSectionId, subSectionId) {
     targetSubContent.classList.add("active");
   }
 
-  // Activate the clicked tab
   const targetTab = parentSection.querySelector(
     `.sub-nav-tab[onclick*="${subSectionId}"]`
   );
@@ -105,11 +100,8 @@ function showSubSection(parentSectionId, subSectionId) {
   }
 }
 
-// Starfield is now lightweight moving CSS - minimal GPU usage
 function createStarfield() {
-  console.log(
-    "⭐ Lightweight moving starfield active - optimized for performance"
-  );
+  console.log("!!Lightweight moving stars active - optimized for performance");
 }
 
 // Platform link handlers
@@ -120,10 +112,7 @@ function setupPlatformLinks() {
     link.addEventListener("click", function (e) {
       e.preventDefault();
 
-      // Get platform type from class
-      const platform = this.classList[1]; // Gets the second class (youtube, twitch, etc.)
-
-      // Placeholder URLs - replace with actual social media links
+      const platform = this.classList[1]; // second class (youtube, twitch, ...)
       const urls = {
         youtube: "https://youtube.com/@pureredattack",
         twitch: "https://twitch.tv/pureredattack",
@@ -138,16 +127,14 @@ function setupPlatformLinks() {
   });
 }
 
-// Smooth scrolling for better UX
 function setupSmoothScrolling() {
-  // Add smooth transitions when switching sections
   const contentContainer = document.querySelector(".content-container");
   if (contentContainer) {
     contentContainer.style.transition = "all 0.3s ease";
   }
 }
 
-// Mobile detection and Twitch embed handling
+// check if mobile
 function isMobile() {
   return (
     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -156,7 +143,7 @@ function isMobile() {
   );
 }
 
-// Enhanced Twitch embed with mobile fallback
+// Twitch embed with mobile
 function loadTwitchEmbed() {
   const container = document.getElementById("twitch-container");
   const placeholder = container.querySelector(".embed-placeholder");
@@ -164,20 +151,19 @@ function loadTwitchEmbed() {
   const mobileFallback = document.getElementById("mobile-fallback");
 
   if (isMobile()) {
-    // Show mobile fallback immediately
     mobileMessage.textContent = "📱 Stream may not load on mobile";
     mobileFallback.style.display = "block";
 
     // Try to load embed anyway, but with timeout
     setTimeout(() => {
       if (placeholder.style.display !== "none") {
-        // If embed didn't load, emphasize the fallback
+        // If embed didn't load, use the fallback
         mobileMessage.textContent = "📱 Mobile streaming not supported";
         mobileFallback.innerHTML = `
-                    <p style="color: var(--accent-cyan); font-size: 1rem; font-weight: bold;">
+                    <p style="color: var(--accent-purple); font-size: 1rem; font-weight: bold;">
                         <a href="https://twitch.tv/pureredattack" target="_blank" 
-                           style="color: var(--accent-cyan); text-decoration: underline;">
-                            🎮 Watch on Twitch App →
+                           style="color: var(--accent-purple); text-decoration: underline;">
+                            Watch on Twitch App →
                         </a>
                     </p>
                 `;
@@ -185,23 +171,21 @@ function loadTwitchEmbed() {
     }, 3000);
   }
 
-  // Standard embed loading
-  mobileMessage.textContent = "📺 Loading stream...";
+  mobileMessage.textContent = "Loading stream...";
 
   try {
-    // Create Twitch embed with proper configuration
+    // Create Twitch embed with the right config
     const embed = document.createElement("iframe");
 
-    // Get the current domain for parent parameter
     const hostname = window.location.hostname;
     let parentDomains = [];
 
-    // Force correct domain for GitHub Pages
     if (
       hostname.includes("github.io") ||
       hostname === "pureredattack.github.io"
     ) {
       parentDomains = ["pureredattack.github.io"];
+      // do this for testing
     } else if (hostname === "localhost" || hostname === "127.0.0.1") {
       parentDomains = ["localhost"];
     } else if (
@@ -209,18 +193,15 @@ function loadTwitchEmbed() {
       hostname.startsWith("10.") ||
       hostname.startsWith("172.")
     ) {
-      // For local development, use localhost instead of IP
       parentDomains = ["localhost"];
     } else {
       parentDomains = [hostname];
     }
 
-    // Create parent parameter string
     const parentParam = parentDomains
       .map((domain) => `parent=${domain}`)
       .join("&");
 
-    // Construct proper Twitch embed URL
     embed.src = `https://player.twitch.tv/?channel=pureredattack&${parentParam}&muted=false&autoplay=false`;
     embed.className = "twitch-embed";
     embed.allowfullscreen = true;
@@ -238,7 +219,6 @@ function loadTwitchEmbed() {
 
     embed.onload = () => {
       console.log("Twitch embed loaded successfully");
-      // Give it a moment to initialize
       setTimeout(() => {
         placeholder.style.display = "none";
       }, 1000);
@@ -261,112 +241,161 @@ function showEmbedError() {
         <p style="color: var(--text-secondary);">
             Stream might be offline or unavailable.<br>
             <a href="https://twitch.tv/pureredattack" target="_blank" 
-               style="color: var(--accent-cyan); text-decoration: underline;">
+               style="color: var(--accent-purple); text-decoration: underline;">
                 Check Twitch directly →
             </a>
         </p>
     `;
 }
 
-// Simple space animation - floating UFOs
+// UFO space animation 
 function createSpaceAnimation() {
-  function createUFO() {
+  function createUFO(isChild = false, startX = "-80px", startY = null) {
     const ufo = document.createElement("div");
     ufo.classList.add("space-ufo");
+    if (isChild) ufo.classList.add("child-ufo");
     ufo.innerHTML = "🛸";
 
-    // Random starting position (off-screen left)
-    ufo.style.left = "-50px";
-    ufo.style.top = Math.random() * 80 + 10 + "%";
-
-    // Random animation duration (slower)
-    const duration = Math.random() * 20 + 30; // 30-50 seconds
+    const startPositions = ["-80px", "-120px", "-60px"];
+    ufo.style.left = startX === "-80px" ? startPositions[Math.floor(Math.random() * startPositions.length)] : startX;
+    
+    const flightPaths = [
+      { top: "3%", description: "very-top", weight: 30 },    
+      { top: "8%", description: "top", weight: 35 },         
+      { top: "15%", description: "upper", weight: 35 },   
+      { top: "22%", description: "mid-upper", weight: 25 },  
+      { top: "30%", description: "center-upper", weight: 20 }, 
+      { top: "70%", description: "center-lower", weight: 15 },
+      { top: "78%", description: "mid-lower", weight: 10 },  
+      { top: "85%", description: "lower", weight: 15 },     
+      { top: "92%", description: "bottom", weight: 10 },     
+      { top: "97%", description: "very-bottom", weight: 5 }  
+    ];
+    
+    if (startY) {
+      ufo.style.top = startY;
+    } else {
+      const weightedPaths = [];
+      flightPaths.forEach(path => {
+        for (let i = 0; i < path.weight; i++) {
+          weightedPaths.push(path);
+        }
+      });
+      const randomPath = weightedPaths[Math.floor(Math.random() * weightedPaths.length)];
+      ufo.style.top = randomPath.top;
+    }
+    
+    const baseDuration = isChild ? Math.random() * 8 + 8 : Math.random() * 12 + 18;
+    const durationVariation = Math.random() * 6 - 3; // ±3 seconds
+    const duration = Math.max(5, baseDuration + durationVariation);
     ufo.style.animationDuration = duration + "s";
 
-    document.body.appendChild(ufo);
+    ufo.style.cursor = "pointer";
+    ufo.style.pointerEvents = "auto";
+    ufo.style.transition = "filter 0.2s ease";
 
-    // Remove UFO after animation completes
-    setTimeout(() => {
+    ufo.isActive = true;
+
+    ufo.addEventListener("mouseenter", function() {
+      if (ufo.isActive) {
+        ufo.style.filter += " brightness(1.3)";
+      }
+    });
+    
+    ufo.addEventListener("mouseleave", function() {
+      if (ufo.isActive) {
+        ufo.style.filter = ufo.style.filter.replace(" brightness(1.3)", "");
+      }
+    });
+
+    ufo.addEventListener("click", function(e) {
+      if (ufo.isActive) {
+        e.preventDefault();
+        duplicateUFO(ufo);
+      }
+    });
+
+    document.body.appendChild(ufo);
+    
+    if (!isChild) {
+      console.log(`UFO launched. Duration: ${duration.toFixed(1)}s`);
+    }
+
+    ufo.addEventListener('animationend', function() {
+      ufo.isActive = false;
       if (ufo.parentNode) {
         ufo.parentNode.removeChild(ufo);
       }
-    }, duration * 1000);
+    });
+
+    setTimeout(() => {
+      if (ufo.parentNode && ufo.isActive) {
+        ufo.isActive = false;
+        ufo.parentNode.removeChild(ufo);
+      }
+    }, (duration + 2) * 1000); // Extra 2s buffer
+    
+    return ufo;
   }
 
-  // Create UFO occasionally (every 15-45 seconds)
+  function duplicateUFO(originalUFO) {
+    console.log("UFO clicked! Creating mini UFO swarm!");
+    
+    // Get current position of clicked UFO
+    const rect = originalUFO.getBoundingClientRect();
+    const currentLeft = rect.left + "px";
+    const currentTop = rect.top + "px";
+    
+    const numChildren = Math.floor(Math.random() * 4) + 3;
+    
+    for (let i = 0; i < numChildren; i++) {
+      setTimeout(() => {
+        const angle = (i / numChildren) * Math.PI * 2; // Circular distribution
+        const distance = Math.random() * 80 + 40; // 40-120px spread
+        
+        const spreadX = parseInt(currentLeft) + Math.cos(angle) * distance;
+        const spreadY = parseInt(currentTop) + Math.sin(angle) * distance * 0.6; // Less vertical spread
+        
+        createUFO(true, Math.max(-100, spreadX) + "px", Math.max(0, Math.min(window.innerHeight - 50, spreadY)) + "px");
+      }, i * 150); // Faster staggered creation
+    }
+    
+    // Mark original UFO as inactive and remove with fade
+    originalUFO.isActive = false;
+    originalUFO.style.transition = "opacity 0.3s ease-out";
+    originalUFO.style.opacity = "0";
+    setTimeout(() => {
+      if (originalUFO.parentNode) {
+        originalUFO.parentNode.removeChild(originalUFO);
+      }
+    }, 300);
+  }
+
   function scheduleNextUFO() {
-    const delay = Math.random() * 30000 + 15000; // 15-45 seconds
+    const delay = Math.random() * 3000 + 12000; // 12-15 seconds
+    
+    console.log(`🛸 Next UFO scheduled in ${Math.round(delay/1000)}s`);
+    
     setTimeout(() => {
       createUFO();
       scheduleNextUFO();
     }, delay);
   }
 
-  // Start the animation cycle
+  console.log("UFO animation system initialized");
   scheduleNextUFO();
 }
 
-// Initialize everything when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
-  // Check for reduced motion preference
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
+  console.log("DOM Content Loaded - Starting initialization");
+  
+  createStarfield();
+  createSpaceAnimation();
+  console.log("Forced UFO animation to start");
 
-  // Create animated background elements only if user doesn't prefer reduced motion
-  if (!prefersReducedMotion) {
-    createStarfield();
-    // CSS background animations are now handling the space theme
-  } else {
-    // For users who prefer reduced motion, use a simpler background
-    console.log("Reduced motion detected - simplified animations");
-  }
-
-  // Setup platform links
   setupPlatformLinks();
-
-  // Setup smooth scrolling
   setupSmoothScrolling();
-
-  // Add keyboard navigation
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      // Check if modal is open first
-      const modal = document.getElementById("imageModal");
-      if (modal && modal.classList.contains("active")) {
-        closeImageModal();
-      } else {
-        showSection("home");
-      }
-    }
-  });
-
-  // Add resize handler for responsive adjustments
-  window.addEventListener("resize", function () {
-    // No longer need particle cleanup since we removed them
-    console.log("Resize detected - CSS animations only");
-  });
-
-  console.log("🚀 Pureredattack website initialized successfully!");
-});
-
-// Utility function to add glow effect on hover (fixed)
-function addGlowEffect(element, color = "var(--accent-cyan)") {
-  if (!element) return; // Safety check
-
-  element.addEventListener("mouseenter", function () {
-    this.style.transition = "box-shadow 0.3s ease";
-    this.style.boxShadow = `0 0 20px ${color}`;
-  });
-
-  element.addEventListener("mouseleave", function () {
-    this.style.transition = "box-shadow 0.3s ease";
-    this.style.boxShadow = "";
-  });
-}
-
-// Add glow effects to interactive elements
-document.addEventListener("DOMContentLoaded", function () {
+  
   const interactiveElements = document.querySelectorAll(
     ".nav-card, .stream-status"
   );
@@ -374,7 +403,6 @@ document.addEventListener("DOMContentLoaded", function () {
     addGlowEffect(element);
   });
 
-  // Add platform-specific glow effects
   const platformLinks = document.querySelectorAll(".platform-link");
   platformLinks.forEach((link) => {
     const platform = link.classList[1];
@@ -399,21 +427,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
     addGlowEffect(link, glowColor);
   });
+  
+  // Set up shooting star container
+  if (!document.querySelector(".shooting-star-container")) {
+    const container = document.createElement("div");
+    container.className = "shooting-star-container";
+    document.body.appendChild(container);
+  }
 
-  // Prevent any accidental clicks on background elements from redirecting home
-  document.addEventListener("click", function (e) {
-    // Only allow clicks on specific interactive elements
-    if (
-      !e.target.closest(
-        ".nav-card, .stream-status, .platform-link, .back-button, .sub-nav-tab, .content-section"
-      )
-    ) {
-      e.stopPropagation();
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      const modal = document.getElementById("imageModal");
+      if (modal && modal.classList.contains("active")) {
+        closeImageModal();
+      } else {
+        showSection("home");
+      }
     }
   });
+
+  window.addEventListener("resize", function () {
+    console.log("Resize detected - CSS animations only");
+  });
+
+  console.log("Website initialized");
 });
 
-// Image modal functions
 function openImageModal(imageSrc, imageAlt) {
   const modal = document.getElementById("imageModal");
   const modalImage = document.getElementById("modalImage");
@@ -422,13 +461,9 @@ function openImageModal(imageSrc, imageAlt) {
   modalImage.alt = imageAlt;
 
   modal.style.display = "block";
-  // Small delay to ensure display is set before opacity transition
   setTimeout(() => {
     modal.classList.add("active");
   }, 10);
-
-  // Keep body scroll enabled for modal scrolling
-  // document.body.style.overflow = 'hidden'; // Removed this line
 }
 
 function closeImageModal() {
@@ -436,9 +471,147 @@ function closeImageModal() {
 
   modal.classList.remove("active");
 
-  // Wait for transition to complete before hiding
   setTimeout(() => {
     modal.style.display = "none";
-    // document.body.style.overflow = 'auto'; // Removed this line
   }, 300);
+}
+// Shooting star event listeners and functions
+let shootingStarCounter = 0;
+
+document.addEventListener("keydown", function (event) {
+  if (event.key.toLowerCase() === "s") {
+    triggerMultipleShootingStar();
+  }
+});
+
+function triggerShootingStar() {
+  const starfield = document.querySelector(".starfield");
+  if (!starfield) return;
+
+  starfield.classList.remove(
+    "shoot-down-right",
+    "shoot-down-left",
+    "shoot-up-right",
+    "shoot-up-left"
+  );
+
+  // Random dir
+  const directions = [
+    "shoot-down-right",
+    "shoot-down-left",
+    "shoot-up-right",
+    "shoot-up-left",
+  ];
+  const randomDirection =
+    directions[Math.floor(Math.random() * directions.length)];
+
+  starfield.classList.add(randomDirection);
+
+  setTimeout(() => {
+    starfield.classList.remove(randomDirection);
+  }, 2000);
+
+  console.log(`🌟 Shooting star triggered: ${randomDirection}`);
+}
+
+function triggerMultipleShootingStar() {
+  const container =
+    document.querySelector(".shooting-star-container") || document.body;
+
+  const star = document.createElement("div");
+  star.className = "dynamic-shooting-star";
+  star.id = `shooting-star-${shootingStarCounter++}`;
+
+  const directions = [
+    {
+      name: "down-right",
+      startTop: "-100px",
+      startLeft: "-250px",
+      endTop: "calc(100% + 150px)",
+      endLeft: "calc(100% + 350px)",
+      rotation: "40deg",
+    },
+    {
+      name: "down-left",
+      startTop: "-100px",
+      startLeft: "calc(100% + 250px)",
+      endTop: "calc(100% + 150px)",
+      endLeft: "-350px",
+      rotation: "140deg",
+    },
+    {
+      name: "up-right",
+      startTop: "calc(100% + 100px)",
+      startLeft: "-250px",
+      endTop: "-150px",
+      endLeft: "calc(100% + 350px)",
+      rotation: "-40deg",
+    },
+    {
+      name: "up-left",
+      startTop: "calc(100% + 100px)",
+      startLeft: "calc(100% + 250px)",
+      endTop: "-150px",
+      endLeft: "-350px",
+      rotation: "-140deg",
+    },
+  ];
+
+  const randomDirection =
+    directions[Math.floor(Math.random() * directions.length)];
+
+  star.style.top = randomDirection.startTop;
+  star.style.left = randomDirection.startLeft;
+  star.style.transform = `rotate(${randomDirection.rotation})`;
+
+  container.appendChild(star);
+
+  setTimeout(() => {
+    star.style.transition = "all 2s ease-out";
+    star.style.opacity = "1";
+    star.style.top = randomDirection.endTop;
+    star.style.left = randomDirection.endLeft;
+
+    setTimeout(() => {
+      star.style.opacity = "0";
+    }, 1600);
+  }, 50);
+
+  setTimeout(() => {
+    if (star.parentNode) {
+      star.parentNode.removeChild(star);
+    }
+  }, 2500);
+
+  console.log(
+    `Shooting star #${shootingStarCounter - 1} triggered: ${
+      randomDirection.name
+    }`
+  );
+}
+
+// Missing unload function
+function unloadTwitchEmbed() {
+  const container = document.getElementById("twitch-container");
+  if (container) {
+    const existingEmbed = container.querySelector(".twitch-embed");
+    if (existingEmbed) {
+      existingEmbed.remove();
+      console.log("Twitch embed unloaded");
+    }
+  }
+}
+
+function addGlowEffect(element, color = "var(--accent-cyan)") {
+  if (!element) return;
+
+  element.addEventListener("mouseenter", function () {
+    this.style.transition = "box-shadow 0.3s ease";
+    this.style.boxShadow = `0 0 20px ${color}`;
+  });
+
+  element.addEventListener("mouseleave", function () {
+    this.style.transition = "box-shadow 0.3s ease";
+    this.style.boxShadow = "";
+  });
 }
